@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Docker," />
 
 
 
@@ -90,8 +90,9 @@
 <meta property="og:site_name" content="DevOps">
 <meta property="og:description" content="Docker的镜像（image）、容器（container）、数据卷（volume）， 都是由daemon托管的。 因此，在需要清理时，也需要使用其自带的手段。       本文介绍一些Docker的清理技巧，以及它们的来源。    清理技巧  清理所有停止运行的容器：  docker container prune # or docker rm $(docker ps -aq)   清理所有">
 <meta property="article:published_time" content="2020-05-13T01:53:36.000Z">
-<meta property="article:modified_time" content="2020-05-13T02:02:33.212Z">
+<meta property="article:modified_time" content="2020-05-13T02:27:57.451Z">
 <meta property="article:author" content="Even Chan">
+<meta property="article:tag" content="Docker">
 <meta name="twitter:card" content="summary">
 
 
@@ -184,7 +185,7 @@
       
         
         <li class="menu-item menu-item-home">
-          <a href="/%20" rel="section">
+          <a href="/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
@@ -194,7 +195,7 @@
       
         
         <li class="menu-item menu-item-about">
-          <a href="/about/%20" rel="section">
+          <a href="/about/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
             
@@ -204,7 +205,7 @@
       
         
         <li class="menu-item menu-item-tags">
-          <a href="/tags/%20" rel="section">
+          <a href="/tags/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
@@ -214,7 +215,7 @@
       
         
         <li class="menu-item menu-item-categories">
-          <a href="/categories/%20" rel="section">
+          <a href="/categories/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
@@ -224,9 +225,9 @@
       
         
         <li class="menu-item menu-item-archives">
-          <a href="/archives/%20" rel="section">
+          <a href="/archives/" rel="section">
             
-              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+              <i class="menu-item-icon fa fa-fw fa-archives"></i> <br />
             
             归档
           </a>
@@ -234,7 +235,7 @@
       
         
         <li class="menu-item menu-item-schedule">
-          <a href="/schedule/%20" rel="section">
+          <a href="/schedule/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
             
@@ -244,7 +245,7 @@
       
         
         <li class="menu-item menu-item-sitemap">
-          <a href="/sitemap.xml%20" rel="section">
+          <a href="/sitemap.xml" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
             
@@ -254,7 +255,7 @@
       
         
         <li class="menu-item menu-item-commonweal">
-          <a href="/404/%20" rel="section">
+          <a href="/404/" rel="section">
             
               <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
             
@@ -611,8 +612,6 @@ sudo service docker restart
 <li><a href="https://docs.docker.com/engine/reference/commandline/volume_rm/" target="_blank" rel="noopener">docker volume rm | Docker Documentation</a></li>
 <li><a href="https://docs.docker.com/engine/reference/commandline/volume_prune/" target="_blank" rel="noopener">docker volume prune | Docker Documentation</a></li>
 </ul>
-
-<pre><code>&lt;/div&gt;</code></pre>
       
     </div>
     
@@ -626,6 +625,12 @@ sudo service docker restart
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Docker/" rel="tag"># Docker</a>
+          
+        </div>
       
 
       
@@ -719,7 +724,7 @@ sudo service docker restart
             
               <div class="site-state-item site-state-posts">
               
-                <a href="/archives/%20%7C%7C%20archive">
+                <a href="/archives/%7C%7C%20archives">
               
                   <span class="site-state-item-count">2</span>
                   <span class="site-state-item-name">日志</span>
@@ -729,6 +734,15 @@ sudo service docker restart
 
             
 
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
             
 
           </nav>
@@ -972,6 +986,8 @@ sudo service docker restart
   
 
   
+  
+
 
   
 
