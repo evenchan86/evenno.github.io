@@ -83,12 +83,14 @@
 
 
 
-<meta name="description" content="devops-blog">
-<meta property="og:type" content="website">
-<meta property="og:title" content="DevOps">
-<meta property="og:url" content="https://evenno.github.io/index.html">
+<meta name="description" content="Docker的镜像（image）、容器（container）、数据卷（volume）， 都是由daemon托管的。 因此，在需要清理时，也需要使用其自带的手段。       本文介绍一些Docker的清理技巧，以及它们的来源。    清理技巧  清理所有停止运行的容器：  docker container prune # or docker rm $(docker ps -aq)   清理所有">
+<meta property="og:type" content="article">
+<meta property="og:title" content="清理Docker的container，image与volume">
+<meta property="og:url" content="https://evenno.github.io/2020/05/13/%E6%B8%85%E7%90%86Docker%E7%9A%84container%EF%BC%8Cimage%E4%B8%8Evolume/index.html">
 <meta property="og:site_name" content="DevOps">
-<meta property="og:description" content="devops-blog">
+<meta property="og:description" content="Docker的镜像（image）、容器（container）、数据卷（volume）， 都是由daemon托管的。 因此，在需要清理时，也需要使用其自带的手段。       本文介绍一些Docker的清理技巧，以及它们的来源。    清理技巧  清理所有停止运行的容器：  docker container prune # or docker rm $(docker ps -aq)   清理所有">
+<meta property="article:published_time" content="2020-05-13T01:53:36.000Z">
+<meta property="article:modified_time" content="2020-05-13T02:02:33.212Z">
 <meta property="article:author" content="Even Chan">
 <meta name="twitter:card" content="summary">
 
@@ -120,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="https://evenno.github.io/"/>
+  <link rel="canonical" href="https://evenno.github.io/2020/05/13/清理Docker的container，image与volume/"/>
 
 
 
 
 
-  <title>DevOps</title>
+  <title>清理Docker的container，image与volume | DevOps</title>
   
 
 
@@ -145,8 +147,7 @@
     
   
 
-  <div class="container sidebar-position-left 
-  page-home">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -279,398 +280,9 @@
         <div class="content-wrap">
           <div id="content" class="content">
             
-  <section id="posts" class="posts-expand">
+
+  <div id="posts" class="posts-expand">
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://evenno.github.io/2020/05/13/Kubernetes%E9%83%A8%E7%BD%B2Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E5%8D%95%E8%8A%82%E7%82%B9%EF%BC%89/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Even Chan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="DevOps">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/05/13/Kubernetes%E9%83%A8%E7%BD%B2Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E5%8D%95%E8%8A%82%E7%82%B9%EF%BC%89/" itemprop="url">Kubernetes部署Mysql数据库（单节点）</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-13T10:07:10+08:00">
-                2020-05-13
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p><strong>系统环境：</strong></p>
-
-<ul>
-<li>Mysql 版本：8.0.19</li>
-<li>Kubernetes 版本：1.17.4</li>
-<li>操作系统版本：CentOS 7.8</li>
-</ul>
-
-<p><strong>示例地址：</strong></p>
-
-<ul>
-<li><a href="https://github.com/my-dlq/blog-example/tree/master/kubernetes/kubernetes-mysql" target="_blank" rel="noopener">Kubernetes 部署 Mysql 数据库(单节点)部署文件</a></li>
-</ul>
-
-<h2 id="wow0">一、简介</h2>
-
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Mysql 是我们常用的关系型数据库，在项目开发、测试、部署到生成环境时，经常需要部署一套 Mysql 进行数据存储。这里介绍下如何在 Kubernetes 环境中部署用于开发、测试的环境的 Mysql 数据库，当然，部署的是单节点模式，并非用于生产环境的主从或集群模式。单节点的 Mysql 部署简单，且配置存活探针，能保证快速检测 Mysql 是否可用，当不可用时快速进行重启。</p>
-
-<h2 id="wow1">二、Mysql 参数配置</h2>
-
-<p>在使用 Kubernetes 部署应用后，一般会习惯与将应用的配置文件外置，用 ConfigMap 存储，然后挂载进入镜像内部。这样，只要修改 ConfigMap 里面的配置，再重启应用就能很方便就能够使应用重新加载新的配置，很方便。</p>
-
-<h3 id="wow2">创建 ConfigMap 存储 Mysql 配置文件</h3>
-
-<p>创建 Kubernetes 的 ConfigMap 资源，用于存储 Mysql 的配置文件 my.cnf 内容：</p>
-
-<p><strong>mysql-config.yaml</strong></p>
-
-<pre><code class="language-yaml hljs"><span class="hljs-attr">apiVersion:</span> <span class="hljs-string">v1</span>
-<span class="hljs-attr">kind:</span> <span class="hljs-string">ConfigMap</span>
-<span class="hljs-attr">metadata:</span>
-<span class="hljs-attr">  name:</span> <span class="hljs-string">mysql-config</span>
-<span class="hljs-attr">  labels:</span>
-<span class="hljs-attr">    app:</span> <span class="hljs-string">mysql</span>
-<span class="hljs-attr">data:</span>
-  <span class="hljs-string">my.cnf:</span> <span class="hljs-string">|-</span>
-    <span class="hljs-string">[client]</span>
-    <span class="hljs-string">default-character-set=utf8mb4</span>
-    <span class="hljs-string">[mysql]</span>
-    <span class="hljs-string">default-character-set=utf8mb4</span>
-    <span class="hljs-string">[mysqld]</span> 
-    <span class="hljs-string">max_connections</span> <span class="hljs-string">=</span> <span class="hljs-number">2000</span>
-    <span class="hljs-string">secure_file_priv=/var/lib/mysql</span>
-    <span class="hljs-string">sql_mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION</span>
-</code></pre>
-
-<h3 id="wow3">通过 Kubectl 工具部署 ConfigMap</h3>
-
-<p>通过 kubectl 工具部署 Kubernetes ConfigMap 资源，命令如下：</p>
-
-<ul>
-<li>-n：指定部署应用的 Namespace 命名空间。</li>
-</ul>
-
-<pre><code class="language-bash hljs">$ kubectl create -f mysql-config.yaml -n mydlqcloud
-</code></pre>
-
-<h2 id="wow4">三、Mysql 数据存储</h2>
-
-<p>Kubernetes 部署的应用一般都是无状态应用，部署后下次重启很可能会漂移到不同节点上，所以不能使用节点上的本地存储，而是徐亚网络存储对应用数据持久化，PV 和 PVC 是 Kubernetes 用于与储空关联的资源，可与不同的存储驱动建立连接，存储应用数据，所以接下来我们要创建 Kubernetes PV、PVC 资源。</p>
-
-<blockquote>
-<p>PV、PVC 资料可以参考 <a href="http://www.mydlq.club/article/38/" target="_blank" rel="noopener">Kubernetes 存储资源 PV、PVC 和 StorageClass</a> 文章。</p>
-</blockquote>
-
-<h3 id="wow5">创建 PV、PVC 绑定 Mysql 存储空间</h3>
-
-<p>PV 支持多种存储驱动，不同存储驱动的 PV 配置方式是不同的，需要根据你的存储系统来配置 PV 参数。这里用的是 NFS 存储（共享网络文件存储系统），可以按照以下方式进行配置：</p>
-
-<p><strong>mysql-storage.yaml</strong></p>
-
-<pre><code class="language-yaml hljs"><span class="hljs-comment">## PV</span>
-<span class="hljs-attr">apiVersion:</span> <span class="hljs-string">v1</span>
-<span class="hljs-attr">kind:</span> <span class="hljs-string">PersistentVolume</span>
-<span class="hljs-attr">metadata:</span>
-<span class="hljs-attr">  name:</span> <span class="hljs-string">mysql</span>
-<span class="hljs-attr">  labels:</span>
-<span class="hljs-attr">    app:</span> <span class="hljs-string">mysql</span>             <span class="hljs-comment">#设置 pv 的 label 标签</span>
-<span class="hljs-attr">spec:</span>
-<span class="hljs-attr">  capacity:</span>          
-<span class="hljs-attr">    storage:</span> <span class="hljs-number">50</span><span class="hljs-string">Gi</span>          <span class="hljs-comment">#设置 pv 存储资源大小 </span>
-<span class="hljs-attr">  accessModes:</span>       
-<span class="hljs-bullet">  -</span> <span class="hljs-string">ReadWriteOnce</span>
-<span class="hljs-attr">  mountOptions:</span>
-<span class="hljs-bullet">  -</span> <span class="hljs-string">hard</span>
-<span class="hljs-bullet">  -</span> <span class="hljs-string">nfsvers=4.1</span>    
-<span class="hljs-attr">  nfs:</span>                     <span class="hljs-comment">#指定使用 NFS 存储驱动</span>
-<span class="hljs-attr">    server:</span> <span class="hljs-number">192.168</span><span class="hljs-number">.2</span><span class="hljs-number">.11</span>   <span class="hljs-comment">#指定 NFS 服务器 IP 地址</span>
-<span class="hljs-attr">    path:</span> <span class="hljs-string">/nfs/mysql</span>       <span class="hljs-comment">#指定 NFS 共享目录的位置，且需提前在该目录中创建 mysql 目录</span>
-<span class="hljs-attr">  persistentVolumeReclaimPolicy:</span> <span class="hljs-string">Retain</span>  
-<span class="hljs-meta">---</span>
-<span class="hljs-comment">## PVC</span>
-<span class="hljs-attr">kind:</span> <span class="hljs-string">PersistentVolumeClaim</span>
-<span class="hljs-attr">apiVersion:</span> <span class="hljs-string">v1</span>
-<span class="hljs-attr">metadata:</span>
-<span class="hljs-attr">  name:</span> <span class="hljs-string">mysql</span>
-<span class="hljs-attr">spec:</span>
-<span class="hljs-attr">  resources:</span>
-<span class="hljs-attr">    requests:</span>
-<span class="hljs-attr">      storage:</span> <span class="hljs-number">50</span><span class="hljs-string">Gi</span>        <span class="hljs-comment">#设置 pvc 存储资源大小</span>
-<span class="hljs-attr">  accessModes:</span>
-<span class="hljs-bullet">  -</span> <span class="hljs-string">ReadWriteOnce</span>
-<span class="hljs-attr">  selector:</span>
-<span class="hljs-attr">    matchLabels:</span>
-<span class="hljs-attr">      app:</span> <span class="hljs-string">mysql</span>           <span class="hljs-comment">#根据 Label 选择对应 PV</span>
-</code></pre>
-
-<h3 id="wow6">通过 Kubectl 工具部署 PV、PVC</h3>
-
-<p>通过 kubectl 工具部署 Kubernetes PV、PVC 资源，命令如下：</p>
-
-<ul>
-<li>-n：指定部署应用的 Namespace 命名空间。</li>
-</ul>
-
-<pre><code class="language-bash hljs">$ kubectl create -f mysql-storage.yaml -n mydlqcloud
-</code></pre>
-
-<h2 id="wow7">四、Kubernetes 部署 Mysql</h2>
-
-<h3 id="wow8">创建 Deployment 部署 Mysql</h3>
-
-<p>创建用于 Kubernetes Deployment 来配置部署 Mysql 的参数，需要配置 Mysql 的镜像地址、名称、版本号，还要配置其 CPU 与 Memory 资源的占用，通过环境变量配置 Mysql 的 root 用户默认密码，配置探针监测应用可用性，配置 Volume 挂载之前创建的 PV、PVC、ConfigMap 资源等等，内容如下：</p>
-
-<p><strong>mysql-deploy.yaml</strong></p>
-
-<pre><code class="language-yaml hljs"><span class="hljs-comment">## Service</span>
-<span class="hljs-attr">apiVersion:</span> <span class="hljs-string">v1</span>
-<span class="hljs-attr">kind:</span> <span class="hljs-string">Service</span>
-<span class="hljs-attr">metadata:</span>
-<span class="hljs-attr">  name:</span> <span class="hljs-string">mysql</span>
-<span class="hljs-attr">  labels:</span>
-<span class="hljs-attr">    app:</span> <span class="hljs-string">mysql</span>
-<span class="hljs-attr">spec:</span>
-<span class="hljs-attr">  type:</span> <span class="hljs-string">NodePort</span>
-<span class="hljs-attr">  ports:</span>
-<span class="hljs-attr">  - name:</span> <span class="hljs-string">mysql</span>
-<span class="hljs-attr">    port:</span> <span class="hljs-number">3306</span>
-<span class="hljs-attr">    targetPort:</span> <span class="hljs-number">3306</span>
-<span class="hljs-attr">    nodePort:</span> <span class="hljs-number">30336</span>
-<span class="hljs-attr">  selector:</span>
-<span class="hljs-attr">    app:</span> <span class="hljs-string">mysql</span>
-<span class="hljs-meta">---</span>
-<span class="hljs-comment">## Deployment</span>
-<span class="hljs-attr">apiVersion:</span> <span class="hljs-string">apps/v1</span>
-<span class="hljs-attr">kind:</span> <span class="hljs-string">Deployment</span>
-<span class="hljs-attr">metadata:</span>
-<span class="hljs-attr">  name:</span> <span class="hljs-string">mysql</span>
-<span class="hljs-attr">  labels:</span>
-<span class="hljs-attr">    app:</span> <span class="hljs-string">mysql</span>
-<span class="hljs-attr">spec:</span>
-<span class="hljs-attr">  replicas:</span> <span class="hljs-number">1</span>
-<span class="hljs-attr">  selector:</span>
-<span class="hljs-attr">    matchLabels:</span>
-<span class="hljs-attr">      app:</span> <span class="hljs-string">mysql</span>
-<span class="hljs-attr">  template:</span>
-<span class="hljs-attr">    metadata:</span>
-<span class="hljs-attr">      labels:</span>
-<span class="hljs-attr">        app:</span> <span class="hljs-string">mysql</span>
-<span class="hljs-attr">    spec:</span>     
-<span class="hljs-attr">      containers:</span>
-<span class="hljs-attr">      - name:</span> <span class="hljs-string">mysql</span>
-<span class="hljs-attr">        image:</span> <span class="hljs-attr">mysql:8.0.19</span>
-<span class="hljs-attr">        ports:</span>
-<span class="hljs-attr">        - containerPort:</span> <span class="hljs-number">3306</span>
-<span class="hljs-attr">        env:</span>
-<span class="hljs-attr">        - name:</span> <span class="hljs-string">MYSQL_ROOT_PASSWORD</span>    <span class="hljs-comment">## 配置Root用户默认密码</span>
-<span class="hljs-attr">          value:</span> <span class="hljs-string">"123456"</span>
-<span class="hljs-attr">        resources:</span>
-<span class="hljs-attr">          limits:</span>
-<span class="hljs-attr">            cpu:</span> <span class="hljs-number">2000</span><span class="hljs-string">m</span>
-<span class="hljs-attr">            memory:</span> <span class="hljs-number">512</span><span class="hljs-string">Mi</span>
-<span class="hljs-attr">          requests:</span>
-<span class="hljs-attr">            cpu:</span> <span class="hljs-number">2000</span><span class="hljs-string">m</span>
-<span class="hljs-attr">            memory:</span> <span class="hljs-number">512</span><span class="hljs-string">Mi</span>
-<span class="hljs-attr">        livenessProbe:</span>
-<span class="hljs-attr">          initialDelaySeconds:</span> <span class="hljs-number">30</span>
-<span class="hljs-attr">          periodSeconds:</span> <span class="hljs-number">10</span>
-<span class="hljs-attr">          timeoutSeconds:</span> <span class="hljs-number">5</span>
-<span class="hljs-attr">          successThreshold:</span> <span class="hljs-number">1</span>
-<span class="hljs-attr">          failureThreshold:</span> <span class="hljs-number">3</span>
-<span class="hljs-attr">          exec:</span>
-<span class="hljs-attr">            command:</span> <span class="hljs-string">["mysqladmin",</span> <span class="hljs-string">"-uroot"</span><span class="hljs-string">,</span> <span class="hljs-string">"-p${MYSQL_ROOT_PASSWORD}"</span><span class="hljs-string">,</span> <span class="hljs-string">"ping"</span><span class="hljs-string">]</span>
-<span class="hljs-attr">        readinessProbe:</span>  
-<span class="hljs-attr">          initialDelaySeconds:</span> <span class="hljs-number">10</span>
-<span class="hljs-attr">          periodSeconds:</span> <span class="hljs-number">10</span>
-<span class="hljs-attr">          timeoutSeconds:</span> <span class="hljs-number">5</span>
-<span class="hljs-attr">          successThreshold:</span> <span class="hljs-number">1</span>
-<span class="hljs-attr">          failureThreshold:</span> <span class="hljs-number">3</span>
-<span class="hljs-attr">          exec:</span>
-<span class="hljs-attr">            command:</span> <span class="hljs-string">["mysqladmin",</span> <span class="hljs-string">"-uroot"</span><span class="hljs-string">,</span> <span class="hljs-string">"-p${MYSQL_ROOT_PASSWORD}"</span><span class="hljs-string">,</span> <span class="hljs-string">"ping"</span><span class="hljs-string">]</span>
-<span class="hljs-attr">        volumeMounts:</span>
-<span class="hljs-attr">        - name:</span> <span class="hljs-string">data</span>
-<span class="hljs-attr">          mountPath:</span> <span class="hljs-string">/var/lib/mysql</span>
-<span class="hljs-attr">        - name:</span> <span class="hljs-string">config</span>
-<span class="hljs-attr">          mountPath:</span> <span class="hljs-string">/etc/mysql/conf.d/my.cnf</span>
-<span class="hljs-attr">          subPath:</span> <span class="hljs-string">my.cnf</span>
-<span class="hljs-attr">        - name:</span> <span class="hljs-string">localtime</span>
-<span class="hljs-attr">          readOnly:</span> <span class="hljs-literal">true</span>
-<span class="hljs-attr">          mountPath:</span> <span class="hljs-string">/etc/localtime</span>
-<span class="hljs-attr">      volumes:</span>
-<span class="hljs-attr">      - name:</span> <span class="hljs-string">data</span>
-<span class="hljs-attr">        persistentVolumeClaim:</span>
-<span class="hljs-attr">          claimName:</span> <span class="hljs-string">mysql</span>
-<span class="hljs-attr">      - name:</span> <span class="hljs-string">config</span>      
-<span class="hljs-attr">        configMap:</span>
-<span class="hljs-attr">          name:</span> <span class="hljs-string">mysql-config</span>
-<span class="hljs-attr">      - name:</span> <span class="hljs-string">localtime</span>
-<span class="hljs-attr">        hostPath:</span>
-<span class="hljs-attr">          type:</span> <span class="hljs-string">File</span>
-<span class="hljs-attr">          path:</span> <span class="hljs-string">/etc/localtime</span>
-</code></pre>
-
-<p><strong>参数简介：</strong></p>
-
-<ul>
-<li><strong>ports：</strong> 配置镜像映射端口。</li>
-<li><strong>env：</strong> 镜像环境变量配置，其中 MYSQL_ROOT_PASSWORD 是 Mysql 镜像用于配置 root 用户默认密码变量。</li>
-<li><strong>resources：</strong> 配置 CPU、Memory 资源限制，可以通过配置该值来配置 Pod 的 QoS 级别。</li>
-<li><strong>livenessProbe：</strong> 配置存活探针,定时检测 Mysql 应用运行状态,如果检测到 Mysql 挂掉将进行重启操作。</li>
-<li><strong>readinessProbe：</strong> 配置就绪探针,定时检测 Mysql 应用启动状态,如果启动成功将允许流量涌入,启动失败将进行重启操作。</li>
-<li><strong>command：</strong> 探针执行探测时执行的探测命令。</li>
-<li><strong>volumeMounts：</strong> 存储卷挂载配置，用于镜像内存储的挂载配置，与 volumes 中对于的 name 进行绑定。</li>
-<li><strong>volumes：</strong> 存储卷配置，可配置使用 pvc、hostPath、emptyDir、nfs 等存储，需要配置 name 值与 VolumeMounts 进行绑定。</li>
-</ul>
-
-<h3 id="wow9">通过 Kubectl 工具部署 PV、PVC</h3>
-
-<p>通过 kubectl 工具部署 Deployment 来创建 Msyql，命令如下：</p>
-
-<ul>
-<li>-n：指定部署应用的 Namespace 命名空间。</li>
-</ul>
-
-<pre><code class="language-bash hljs">$ kubectl create -f mysql-deploy.yaml -n mydlqcloud
-</code></pre>
-
-<h2 id="wow10">五、测试 Mysql 是否能够正常使用</h2>
-
-<p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;接下来启动个 Mysql 镜像，使用里面的 Msyql 客户端工具，对部署在 Kubernetes 中的 Mysql 进行连接，测试是否能够正常可用，这里本人 Kubernetes 集群地址为 192.168.2.11 部署的 Mysql 的 NodePort 端口号为 30336，所以这里启动一个对应版本的 Mysql 镜像，然后进入镜像内部，输入 Mysql 登录命令进行测试。</p>
-
-<p>运行一个 mysql 镜像，并且进入镜像内部：</p>
-
-<pre><code class="language-bash hljs">$ docker run -it mysql:8.0.19 /bin/bash
-</code></pre>
-
-<p>在镜像内部命令行中输入 mysql 登录命令，测试是否能够正常登录：</p>
-
-<pre><code class="language-bash hljs">$ mysql -h 192.168.2.11 -P 30336 --user=root --password=123456
-</code></pre>
-
-<p>显示如下：</p>
-
-<pre><code class="language-bash hljs">Welcome to the MySQL monitor.  Commands end with ; or \g.
-Your MySQL connection id is 592
-Server version: 8.0.19 MySQL Community Server - GPL
-
-Copyright (c) 2000, 2020, Oracle and/or its affiliates. All rights reserved.
-
-Oracle is a registered trademark of Oracle Corporation and/or its
-affiliates. Other names may be trademarks of their respective
-owners.
-
-Type <span class="hljs-string">'help;'</span> or <span class="hljs-string">'\h'</span> <span class="hljs-keyword">for</span> <span class="hljs-built_in">help</span>. Type <span class="hljs-string">'\c'</span> to clear the current input statement.
-
-mysql&gt;
-</code></pre>
-
-<p>可以看到，已经成功连接数据库，说明数据库能正常使用。</p>
-
-<p>—END—</p>
-          
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
 
   
 
@@ -700,9 +312,7 @@ mysql&gt;
 
         
         
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2020/05/13/%E6%B8%85%E7%90%86Docker%E7%9A%84container%EF%BC%8Cimage%E4%B8%8Evolume/" itemprop="url">清理Docker的container，image与volume</a></h1>
+          <h1 class="post-title" itemprop="name headline">清理Docker的container，image与volume</h1>
         
 
         <div class="post-meta">
@@ -752,9 +362,7 @@ mysql&gt;
       
 
       
-        
-          
-            <p>  Docker的镜像（image）、容器（container）、数据卷（volume），
+        <p>  Docker的镜像（image）、容器（container）、数据卷（volume），
 都是由daemon托管的。
 因此，在需要清理时，也需要使用其自带的手段。
 
@@ -1005,8 +613,6 @@ sudo service docker restart
 </ul>
 
 <pre><code>&lt;/div&gt;</code></pre>
-          
-        
       
     </div>
     
@@ -1023,12 +629,28 @@ sudo service docker restart
       
 
       
+      
+      
 
       
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/05/13/Kubernetes%E9%83%A8%E7%BD%B2Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E5%8D%95%E8%8A%82%E7%82%B9%EF%BC%89/" rel="prev" title="Kubernetes部署Mysql数据库（单节点）">
+                Kubernetes部署Mysql数据库（单节点） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
 
       
-      
-        <div class="post-eof"></div>
       
     </footer>
   </div>
@@ -1038,10 +660,11 @@ sudo service docker restart
   </article>
 
 
-    
-  </section>
 
-  
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -1049,6 +672,10 @@ sudo service docker restart
 
 
           
+
+  
+
+
 
         </div>
         
@@ -1069,8 +696,17 @@ sudo service docker restart
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -1119,6 +755,22 @@ sudo service docker restart
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#清理技巧"><span class="nav-number">1.</span> <span class="nav-text">清理技巧</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#清理停止的容器"><span class="nav-number">2.</span> <span class="nav-text">清理停止的容器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#清理所有停止的容器"><span class="nav-number">2.1.</span> <span class="nav-text">清理所有停止的容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#按需批量清理容器"><span class="nav-number">2.2.</span> <span class="nav-text">按需批量清理容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#清理失败"><span class="nav-number">2.3.</span> <span class="nav-text">清理失败</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#清理镜像"><span class="nav-number">3.</span> <span class="nav-text">清理镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#按需批量清理镜像"><span class="nav-number">3.1.</span> <span class="nav-text">按需批量清理镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#清理所有无用镜像"><span class="nav-number">3.2.</span> <span class="nav-text">清理所有无用镜像</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#清理数据卷"><span class="nav-number">4.</span> <span class="nav-text">清理数据卷</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#从文件系统删除"><span class="nav-number">5.</span> <span class="nav-text">从文件系统删除</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -1259,6 +911,10 @@ sudo service docker restart
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 
