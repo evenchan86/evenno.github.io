@@ -1,89 +1,21 @@
 <!DOCTYPE html>
-
-
-
-  
-
-
-<html class="theme-next pisces use-motion" lang="zh-Hans">
+<html>
 <head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
-<meta name="theme-color" content="#222">
-
-
-
-
-
-
-
-
-
-<meta http-equiv="Cache-Control" content="no-transform" />
-<meta http-equiv="Cache-Control" content="no-siteapp" />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  <meta charset="utf-8">
+  
+  
+  <meta name="description" content="devops_note" />
+  
 
   
   
-  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
-
-
-
-
-
-
-
-<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
-
-<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
-
-
-  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
-
-
-
-
-
-  <meta name="keywords" content="Kubernetes," />
-
-
-
-
   
-
-
-  <link rel="alternate" href="/atom.xml" title="DevOps" type="application/atom+xml" />
-
-
-
-
-
-
-<meta name="description" content="系统环境：   Mysql 版本：8.0.19 Kubernetes 版本：1.17.4 操作系统版本：CentOS 7.8   示例地址：   Kubernetes 部署 Mysql 数据库(单节点)部署文件   一、简介  &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Mysql 是我们常用的关系型数据库，在项目开发、测试、部署到生成环境时，经常需要部署一">
+  
+  
+  
+  <title>Kubernetes部署Mysql数据库（单节点） | DevOps</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="系统环境：   Mysql 版本：8.0.19 Kubernetes 版本：1.17.4 操作系统版本：CentOS 7.8   示例地址：   Kubernetes 部署 Mysql 数据库(单节点)部署文件   一、简介  &amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Mysql 是我们常用的关系型数据库，在项目开发、测试、部署到生成环境时，经常需要部署一">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Kubernetes部署Mysql数据库（单节点）">
 <meta property="og:url" content="https://evenno.github.io/2020/05/13/Kubernetes%E9%83%A8%E7%BD%B2Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E5%8D%95%E8%8A%82%E7%82%B9%EF%BC%89/index.html">
@@ -94,274 +26,69 @@
 <meta property="article:author" content="Even Chan">
 <meta property="article:tag" content="Kubernetes">
 <meta name="twitter:card" content="summary">
-
-
-
-<script type="text/javascript" id="hexo.configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Pisces',
-    version: '5.1.4',
-    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
-    fancybox: true,
-    tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    duoshuo: {
-      userId: '0',
-      author: '博主'
-    },
-    algolia: {
-      applicationID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
-  };
-</script>
-
-
-
-  <link rel="canonical" href="https://evenno.github.io/2020/05/13/Kubernetes部署Mysql数据库（单节点）/"/>
-
-
-
-
-
-  <title>Kubernetes部署Mysql数据库（单节点） | DevOps</title>
-  
-
-
-
-
-
-
-
-
-<meta name="generator" content="Hexo 4.2.0"></head>
-
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
-
   
   
-    
+    <link rel="icon" href="/css/images/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
   
 
-  <div class="container sidebar-position-left page-post-detail">
-    <div class="headband"></div>
-
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
-  <div class="site-meta ">
-    
-
-    <div class="custom-logo-site-title">
-      <a href="/"  class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">DevOps</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
-    </div>
+  
+  <!-- baidu webmaster push -->
+  <script src='//push.zhanzhang.baidu.com/push.js'></script>
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/atom.xml" title="DevOps" type="application/atom+xml">
+</head>
+<body class="home blog custom-background custom-font-enabled single-author">
+  <div id="page" class="hfeed site">
+      <header id="masthead" class="site-header" role="banner">
+    <hgroup>
+      <h1 class="site-title">
+        <a href="/" title="DevOps" rel="home">DevOps</a>
+      </h1>
       
-        <p class="site-subtitle"></p>
+        <h2 class="site-description hitokoto"></h2>
+        <script type="text/javascript" src="https://v1.hitokoto.cn/?encode=js"></script>
       
-  </div>
+    </hgroup>
 
-  <div class="site-nav-toggle">
-    <button>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-    </button>
-  </div>
-</div>
+    <nav id="site-navigation" class="main-navigation" role="navigation">
+            <button class="menu-toggle">菜单</button>
+            <a class="assistive-text" href="/#content" title="跳至内容">跳至内容</a><!--TODO-->
+            <div class="menu-main-container">
+                <ul id="menu-main" class="nav-menu">
+                
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="/">Home</a></li>
+                
+                    <li class="menu-item menu-item-type-post_type menu-item-object-page"><a href="/archives">Archives</a></li>
+                
+                </ul>
+            </div>
+    </nav>
+</header>
 
-<nav class="site-nav">
-  
+      <div id="main" class="wrapper">
+        <div id="primary" class="site-content"><div id="content" role="main"><article id="post-Kubernetes部署Mysql数据库（单节点）" class="post-Kubernetes部署Mysql数据库（单节点） post type-post status-publish format-standard hentry">
+    <!---->
 
-  
-    <ul id="menu" class="menu">
-      
-        
-        <li class="menu-item menu-item-home">
-          <a href="/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
-            
-            首页
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-about">
-          <a href="/about/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
-            
-            关于
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-tags">
-          <a href="/tags/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
-            
-            标签
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-categories">
-          <a href="/categories/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
-            
-            分类
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-archives">
-          <a href="/archives/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-archives"></i> <br />
-            
-            归档
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-schedule">
-          <a href="/schedule/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-calendar"></i> <br />
-            
-            日程表
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-sitemap">
-          <a href="/sitemap.xml" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-sitemap"></i> <br />
-            
-            站点地图
-          </a>
-        </li>
-      
-        
-        <li class="menu-item menu-item-commonweal">
-          <a href="/404/" rel="section">
-            
-              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
-            
-            公益404
-          </a>
-        </li>
-      
-
-      
-    </ul>
-  
-
-  
-</nav>
-
-
-
- </div>
-    </header>
-
-    <main id="main" class="main">
-      <div class="main-inner">
-        <div class="content-wrap">
-          <div id="content" class="content">
-            
-
-  <div id="posts" class="posts-expand">
-    
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://evenno.github.io/2020/05/13/Kubernetes%E9%83%A8%E7%BD%B2Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E5%8D%95%E8%8A%82%E7%82%B9%EF%BC%89/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Even Chan">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/avatar.gif">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="DevOps">
-    </span>
-
-    
-      <header class="post-header">
-
+      <header class="entry-header">
         
         
-          <h1 class="post-title" itemprop="name headline">Kubernetes部署Mysql数据库（单节点）</h1>
+  
+    <h1 class="entry-title article-title">
+      Kubernetes部署Mysql数据库（单节点）
+    </h1>
+  
+
         
-
-        <div class="post-meta">
-          <span class="post-time">
+        <div class="comments-link">
             
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2020-05-13T10:07:10+08:00">
-                2020-05-13
-              </time>
-            
+            <a href="javascript:void(0);" data-url="https://evenno.github.io/2020/05/13/Kubernetes%E9%83%A8%E7%BD%B2Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E5%8D%95%E8%8A%82%E7%82%B9%EF%BC%89/" data-id="cka4qsntg000141r97m09aseb" class="leave-reply bdsharebuttonbox" data-cmd="more">Share</a>
+        </div><!-- .comments-link -->
+      </header><!-- .entry-header -->
 
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
+    <div class="entry-content">
       
         <p><strong>系统环境：</strong></p>
 
@@ -635,385 +362,117 @@ mysql&gt;
 
 <p>—END—</p>
       
-    </div>
+    </div><!-- .entry-content -->
+
+    <footer class="entry-meta">
+    <a href="/2020/05/13/Kubernetes%E9%83%A8%E7%BD%B2Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E5%8D%95%E8%8A%82%E7%82%B9%EF%BC%89/">
+    <time datetime="2020-05-13T02:07:10.000Z" class="entry-date">
+        2020-05-13
+    </time>
+</a>
     
     
-    
+  <span class="article-delim">&#8226;</span>
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a></li></ul>
 
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-        <div class="post-tags">
-          
-            <a href="/tags/Kubernetes/" rel="tag"># Kubernetes</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2020/05/13/%E6%B8%85%E7%90%86Docker%E7%9A%84container%EF%BC%8Cimage%E4%B8%8Evolume/" rel="next" title="清理Docker的container，image与volume">
-                <i class="fa fa-chevron-left"></i> 清理Docker的container，image与volume
-              </a>
-            
-          </div>
-
-          <span class="post-nav-divider"></span>
-
-          <div class="post-nav-prev post-nav-item">
-            
-          </div>
-        </div>
-      
-
-      
-      
     </footer>
-  </div>
-  
-  
-  
-  </article>
+</article>
 
 
-
-    <div class="post-spread">
-      
-    </div>
-  </div>
-
-
-          </div>
-          
-
-
-          
-
-  
-
-
-
-        </div>
-        
-          
-  
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
-  </div>
-
-  <aside id="sidebar" class="sidebar">
     
-    <div class="sidebar-inner">
+<nav class="nav-single">
+    <h3 class="assistive-text">文章导航</h3>
+    
+    
+        <span class="nav-next"><a href="/2020/05/13/%E6%B8%85%E7%90%86Docker%E7%9A%84container%EF%BC%8Cimage%E4%B8%8Evolume/" rel="next">清理Docker的container，image与volume <span class="meta-nav">→</span></a></span>
+    
+</nav><!-- .nav-single -->
 
-      
 
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
+
+
+
+
+
+</div></div>
+        <div id="secondary" class="widget-area" role="complementary">
+  
+    <aside id="search" class="widget widget_search"><form role="search" method="get" accept-charset="utf-8" id="searchform" class="searchform" action="//google.com/search">
+    <div>
+        <input type="text" value="" name="s" id="s" />
+        <input type="submit" id="searchsubmit" value="搜索" />
+    </div>
+</form></aside>
+  
+    
+  
+    
+  
+    
+  <aside class="widget">
+    <h3 class="widget-title">Recents</h3>
+    <div class="widget-content">
+      <ul>
+        
+          <li>
+            <a href="/2020/05/13/Kubernetes%E9%83%A8%E7%BD%B2Mysql%E6%95%B0%E6%8D%AE%E5%BA%93%EF%BC%88%E5%8D%95%E8%8A%82%E7%82%B9%EF%BC%89/">Kubernetes部署Mysql数据库（单节点）</a>
           </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
+        
+          <li>
+            <a href="/2020/05/13/%E6%B8%85%E7%90%86Docker%E7%9A%84container%EF%BC%8Cimage%E4%B8%8Evolume/">清理Docker的container，image与volume</a>
           </li>
-        </ul>
-      
-
-      <section class="site-overview-wrap sidebar-panel">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-            
-              <p class="site-author-name" itemprop="name">Even Chan</p>
-              <p class="site-description motion-element" itemprop="description">devops-blog</p>
-          </div>
-
-          <nav class="site-state motion-element">
-
-            
-              <div class="site-state-item site-state-posts">
-              
-                <a href="/archives/%7C%7C%20archives">
-              
-                  <span class="site-state-item-count">2</span>
-                  <span class="site-state-item-name">日志</span>
-                </a>
-              </div>
-            
-
-            
-
-            
-              
-              
-              <div class="site-state-item site-state-tags">
-                
-                  <span class="site-state-item-count">2</span>
-                  <span class="site-state-item-name">标签</span>
-                
-              </div>
-            
-
-          </nav>
-
-          
-            <div class="feed-link motion-element">
-              <a href="/atom.xml" rel="alternate">
-                <i class="fa fa-rss"></i>
-                RSS
-              </a>
-            </div>
-          
-
-          
-
-          
-          
-
-          
-          
-
-          
-
-        </div>
-      </section>
-
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#wow0"><span class="nav-number">1.</span> <span class="nav-text">一、简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wow1"><span class="nav-number">2.</span> <span class="nav-text">二、Mysql 参数配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#wow2"><span class="nav-number">2.1.</span> <span class="nav-text">创建 ConfigMap 存储 Mysql 配置文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#wow3"><span class="nav-number">2.2.</span> <span class="nav-text">通过 Kubectl 工具部署 ConfigMap</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wow4"><span class="nav-number">3.</span> <span class="nav-text">三、Mysql 数据存储</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#wow5"><span class="nav-number">3.1.</span> <span class="nav-text">创建 PV、PVC 绑定 Mysql 存储空间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#wow6"><span class="nav-number">3.2.</span> <span class="nav-text">通过 Kubectl 工具部署 PV、PVC</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wow7"><span class="nav-number">4.</span> <span class="nav-text">四、Kubernetes 部署 Mysql</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#wow8"><span class="nav-number">4.1.</span> <span class="nav-text">创建 Deployment 部署 Mysql</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#wow9"><span class="nav-number">4.2.</span> <span class="nav-text">通过 Kubectl 工具部署 PV、PVC</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#wow10"><span class="nav-number">5.</span> <span class="nav-text">五、测试 Mysql 是否能够正常使用</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
-      
-
-      
-
+        
+      </ul>
     </div>
   </aside>
 
+  
+    
+  <aside class="widget">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget-content">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/" rel="tag">Docker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kubernetes/" rel="tag">Kubernetes</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </aside>
 
-        
-      </div>
-    </main>
-
-    <footer id="footer" class="footer">
-      <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2020</span>
-  <span class="with-love">
-    <i class="fa fa-user"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">Even Chan</span>
+  
+    
+  <aside class="widget">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget-content tagcloud">
+      <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/Kubernetes/" style="font-size: 10px;">Kubernetes</a>
+    </div>
+  </aside>
 
   
 </div>
-
-
-  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
-
-
-
-  <span class="post-meta-divider">|</span>
-
-
-
-  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
-
-
-
-
-        
-
-
-
-
-
-
-
-        
       </div>
-    </footer>
+      <footer id="colophon" role="contentinfo">
+    <p>&copy; 2020 Even Chan
+    All rights reserved.</p>
+    <p>Powered by <a href="http://hexo.io/" target="_blank">Hexo</a></p>
+</footer>
+    <script>window._bd_share_config={"common":{"bdSnsKey":{},"bdText":"","bdMini":"1","bdMiniList":false,"bdPic":"","bdStyle":"2","bdSize":"16"},"share":{}};with(document)0[(getElementsByTagName('head')[0]||body).appendChild(createElement('script')).src='/js/share.js'];</script>
 
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
-    
+<script src="/js/jquery-3.3.1.min.js"></script>
 
-    
+
+  
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+  
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+<script src="/js/navigation.js"></script>
+
+<div id="bg"></div>
 
   </div>
-
-  
-
-<script type="text/javascript">
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
-</script>
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  
-    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-  
-
-  
-  
-    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
-  
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
-
-  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
-
-
-
-  
-  
-
-
-  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
-
-  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
-
-
-
-  
-  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
-<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
-
-
-
-  
-
-
-  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
-
-
-
-  
-
-
-  
-
-
-
-
-	
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-
-
-  
-
-  
-
-  
-
-  
-  
-
-  
-  
-
-
-  
-
-  
-
 </body>
 </html>
